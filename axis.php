@@ -22,6 +22,17 @@ require 'db.php';
                 $end=$_GET['end'];
                 $result = $db_item->insertar_evento(null, $title, $start, $end);//La función insertar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
             break;
+            case 'editar_evento':
+                $id=$_GET['id'];
+                $title=$_GET['title'];
+                $start=$_GET['start'];
+                $end=$_GET['end'];
+                $result = $db_item->editar_evento($id, $title, $start, $end);//La función editar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
+            break;
+            case 'eliminar_evento':
+                $id=$_GET['id'];
+                $result = $db_item->eliminar_evento($id);
+            break;
         }
     }
     

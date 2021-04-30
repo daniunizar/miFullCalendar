@@ -50,6 +50,26 @@ class db{
         $result = mysqli_query($this->conexion, $query);
         return $result;
     }
+    /**
+     * Esta función edita un evento en la tabla events de la bbdd.
+     * Recibe los parámetros de la función que la llama, y esta los recibe de la ventana modal en que rellenamos el nuevo evento.
+     */
+    public function editar_evento($id, $title, $start, $end){
+        $this->conectar();
+        $query = "UPDATE EVENTS SET title='$title', start='$start', end='$end' WHERE id = $id";
+        $result = mysqli_query($this->conexion, $query);
+        return $result;
+    }
+    /**
+     * Esta función elimina un evento en la tabla events de la bbdd.
+     * Recibe el parámetro de la función que la llama, y esta los recibe del evento del calendario cuando es seleccionado.
+     */
+    public function eliminar_evento($id){
+        $this->conectar();
+        $query = "DELETE FROM EVENTS WHERE id = $id";
+        $result = mysqli_query($this->conexion, $query);
+        return $result;
+    }
 
 
 
