@@ -6,11 +6,75 @@
     <link href='assets/fullcalendar/lib/main.css' rel='stylesheet' />
     <script src='assets/fullcalendar/lib/main.js'></script>
     <!--Fin Links full calendar-->
-    <script>
+    <!--Links Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <!--Links Bootstrap-->
+  </head>
+  <body>
+    <div id='calendar'>
+    </div>
+  <!--MODAL NUEVO EVENTO-->
+  <div class="modal" tabindex="-1" id="modal_insertar_evento">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Evento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <input type="hidden" id="id">
+              <label for="concepto_evento">Nombre del Evento</label>
+              <input type="text" class="form-control" id="title">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Fecha inicio</label>
+              <input type="date" class="form-control" id="date_start">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Hora inicio</label>
+              <input type="time" class="form-control" id="hour_start">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Fecha finalización</label>
+              <input type="date" class="form-control" id="date_end">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Hora de finalización</label>
+              <input type="time" class="form-control" id="hour_end">
+            </div>
+            
+            <!-- <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Todo el día</label>
+            </div> -->
+            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+          </form>
 
-      document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" id="addEv">Registrar Evento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIN MODAL NUEVO EVENTO-->
+
+  <!--Links JS Y JQ de Bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <!--Links JS Y JQ de Bootstrap-->
+  
+
+  <script>
+  //inicio full calendar
+    $(document).ready(function(){
+        var calendarEl = document.getElementById('calendar'); //declaración global
+        var calendar = new FullCalendar.Calendar(calendarEl, { //conversión a fullcalendar
             initialView: 'dayGridMonth',
             selectable: true,
             height: 650,
@@ -19,15 +83,51 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay',
             },
+            dateClick: function(info) {
+              // alert('Clicked on: ' + info.dateStr);
+              // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+              // alert('Current view: ' + info.view.type);
+              // change the day's background color just for fun
+              $("#modal_insertar_evento").modal("show");//jquery: buscamos el elemento con id modal_insertar_evento y lo ejecutamos. Es la ventana modal de cuando pinchas en el calendario
+              info.dayEl.style.backgroundColor = 'red';
+              //función que llame a ventana modal con formulario de nuevo evento
+            },
             events:'axis.php?instruccion=listar_eventos'
-            
         });
-        calendar.render();
-      });
+        //fin full calendar
+        calendar.render(); //lo renderizamos
 
-    </script>
-  </head>
-  <body>
-    <div id='calendar'></div>
+        function anadirEvento(){
+          //recuperamos los valores de los campos del formulario modal de nuevo evento
+          var title = $('#title').val();
+          var date_start = $('#date_start').val();
+          var hour_start = $('#hour_start').val();
+          var date_end = $('#date_end').val();
+          var hour_end = $('#hour_end').val();
+          var start = date_start + " " + hour_start;
+          var end = date_end + " " + hour_end;
+          // console.log (id + " - " + title + " - " + start + " - " + end + " - ");//Lo muestro por consola para comprobaciones y debugs
+          $('#modal_insertar_evento').modal("hide");
+          //Los enviamos a axis.db como parámetros con la ?instrucción=insertar_evento ==> axis.db?instruccion=insertar_evento&id=$id&title=$title...etc
+          //mediante un ajax... supongo
+          var url="axis.php?instruccion=insertar_evento&title="+title+"&start="+start+"&end="+end;
+          const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
+                  xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
+                      //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
+                      if(this.readyState == 4 && this.status ==200){ //Si la conexión ha sido un éxito...
+                          // calendar.render();
+                          calendar.refetchEvents();
+                      }else{//Si hemos fallado en la conexión y recuperación de esa información
+                          //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
+                      }
+                  };
+                  xhttp.open("GET", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.send(null);
+          //fin del ajax
+        }
+        $('#addEv').on('click', anadirEvento); //al botón de la ventana modal que permite registrar nuevo evento cuando ya hemos rellenado los campos del formulariio, le metemos un listener evento de acción onclick ue lleva a anadir evento
+    });
+
+  </script>
   </body>
 </html>

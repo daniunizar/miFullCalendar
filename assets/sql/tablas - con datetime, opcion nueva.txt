@@ -1,0 +1,12 @@
+CREATE TABLE EVENTS(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50),
+    start DATETIME,
+    end DATETIME
+    );
+INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento1', '2021-04-01 12:00:00','2021-04-01 14:00:00');
+INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento2', '2021-04-04 12:00:00','2021-04-04 14:00:00');
+INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento3', '2021-04-07 12:00:00','2021-04-07 14:00:00');
+
+**CON DATE TIME EL FORMATO DE ALMACENAMIENTO ES:
+año-mes-dia horas:minutos:segundos

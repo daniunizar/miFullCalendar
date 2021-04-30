@@ -39,6 +39,18 @@ class db{
         return $array_registros_recuperados;
     }
 
+    /**
+     * Esta función inserta un evento en la tabla events de la bbdd.
+     * Recibe los parámetros de la función que la llama, y esta los recibe de la ventana modal en que rellenamos el nuevo evento.
+     */
+    public function insertar_evento($id, $title, $start, $end){
+        $this->conectar();
+        $id = null; //Al insertar di es null porque es numérico autoincremental
+        $query = "INSERT INTO EVENTS (id, title, start, end)". "VALUES('$id','$title', '$start', '$end')";
+        $result = mysqli_query($this->conexion, $query);
+        return $result;
+    }
+
 
 
     
