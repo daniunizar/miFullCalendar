@@ -1,0 +1,13 @@
+Creamos la base de datos, la tabla events y en ella los campos id, title, start y end.
+Insertamos unos registros en la base de datos, por ejemplo : null, evento1, 2021-04-15, 2021-04-20.
+Creamos un documento index.php y en él pegamos la plantilla de full calendar (por los links y el ejemplo inicial).
+Descargamos la carpeta comprimida, la descomprimimos dentro de assets/fullcalendar y corregimos los links de index.php para que coincidan con esa ruta.
+Probamos el calendario y debería funcionar con el ejemplo por defecto.
+-PENDIENTE-Cambiamos el idioma del calendario a español.
+Le damos una altura que podamos manejar, por ejemplo: height: 650
+Insertamos la headerToolbar en nuestro calendario con los botones necesariso en las posiciones left, center y right.
+Generamos la clase db que permite conectar a la base de datos, y los métodos que permitan insertar, listar, borrar y editar. De momento sólo listar.
+Con la clase listar retornamos un array con todos los resultados.
+Generamos la clase intermedia que en función de lo que le llegue por get creará un nuevo objeto db y hará la función correspondiente, en nuestro caso listar.
+Con el switch en que entremos devolvemos une echo con el json encode.
+En el full calendar ponemos en events: la url a la clase intermedia con información de tipo GET necesaria para recueperar todos los eventos.

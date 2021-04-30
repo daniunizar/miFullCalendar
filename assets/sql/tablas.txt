@@ -1,0 +1,9 @@
+CREATE TABLE EVENTS(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50),
+    start DATE,
+    end DATE
+    );
+INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento1', '2021-04-15','2021-04-15');
+INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento2', '2021-04-01','2021-04-07');
+INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento3', '2021-04-20','2021-04-30');
