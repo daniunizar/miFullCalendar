@@ -32,6 +32,7 @@ class db{
             $array_auxiliar['title']=$fila['title'];
             $array_auxiliar['start']=$fila['start'];
             $array_auxiliar['end']=$fila['end'];
+            $array_auxiliar['owner']=$fila['owner'];
             array_push($array_registros_recuperados, $array_auxiliar);
             //echo "el valor del campo es: $fila[1] . <br/>"; //Obtenemos el valor del campo que pongamos entre corchetes del registro actual en cada vuelta del while
         }
@@ -43,10 +44,10 @@ class db{
      * Esta función inserta un evento en la tabla events de la bbdd.
      * Recibe los parámetros de la función que la llama, y esta los recibe de la ventana modal en que rellenamos el nuevo evento.
      */
-    public function insertar_evento($id, $title, $start, $end){
+    public function insertar_evento($id, $title, $start, $end, $owner){
         $this->conectar();
         $id = null; //Al insertar di es null porque es numérico autoincremental
-        $query = "INSERT INTO EVENTS (id, title, start, end)". "VALUES('$id','$title', '$start', '$end')";
+        $query = "INSERT INTO EVENTS (id, title, start, end, owner)". "VALUES('$id','$title', '$start', '$end', '$owner')";
         $result = mysqli_query($this->conexion, $query);
         return $result;
     }
@@ -145,11 +146,32 @@ class db{
         //Ejecutamos la consulta y guardamos el conjunto de registros que devuelve en $result (sólo debería ser 1 registro)
         $result = mysqli_query($this->conexion, $query);
         //Recuperamos el resultado y mediante el while extraemos su contenido
+        // var_dump($result);
         while($registro = mysqli_fetch_row($result)){
             $username = $registro[1];
             $_SESSION['username']=$username; //Asignamos a las variables de sesión la info del usuario
         }        
     }
+    /**
+     *  SELECT
+     *  Esta función recupera el nombre del usuario propietario de un evento a partir de su id.
+     */
+    public function get_owner_info($owner_id){
+        //Abrimos la conexión
+        $this->conectar();
+        //Preparamos la consulta
+        $query = "SELECT name FROM users WHERE id = '$owner_id'";
+        //Ejecutamos la consulta y guardamos el conjunto de registros que devuelve en $result (sólo debería ser 1 registro)
+        $result = mysqli_query($this->conexion, $query);
+        //Recuperamos el resultado y mediante el while extraemos su contenido
+        // var_dump($result);
+        while($registro = mysqli_fetch_row($result)){
+            $owner_name = $registro[1];
+            return $owner_name;
+        }        
+    }
+
+
 
     
 }

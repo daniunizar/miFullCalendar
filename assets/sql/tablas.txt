@@ -3,7 +3,9 @@ CREATE TABLE EVENTS(
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(50),
     start DATETIME,
-    end DATETIME
+    end DATETIME,
+    owner int,
+    CONSTRAINT EVE_OWN_FK FOREIGN KEY (owner) REFERENCES users (id)
     );
 INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento1', '2021-04-01 12:00:00','2021-04-01 14:00:00');
 INSERT INTO EVENTS (id, title, start, end) VALUES (null, 'evento2', '2021-04-04 12:00:00','2021-04-04 14:00:00');

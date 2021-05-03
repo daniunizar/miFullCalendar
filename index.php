@@ -31,7 +31,9 @@ require 'db.php';
                         <h2 class="centrado">Please, <a href="login.php">Login</a> or <a href="signup.php">SignUp</a></h2> 
                     </div>
                 <?php else:?><!--Si nos hemos logueado con éxito-->
-                    <?php $a->get_user_info()?>
+                    <?php
+                        $a = new db(); 
+                        $a->get_user_info()?>
                     <div class="col-12">
                         <div class="row">
                             <div class="col">

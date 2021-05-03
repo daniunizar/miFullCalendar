@@ -46,6 +46,10 @@
               <label for="exampleInputPassword1">Hora de finalización</label>
               <input type="time" class="form-control" id="hour_end">
             </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Propietario</label>
+              <input type="text" class="form-control" id="owner" disabled>
+            </div>
             
             <!-- <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -107,6 +111,7 @@
               // change the day's background color just for fun
               limpiarFormulario_modal_evento();
               $('#title').val('Nuevo Evento');
+              $('#owner').val('');
               $('#date_start').val(moment(info.date).format('YYYY-MM-DD'));
               $('#hour_start').val('10:00:00');
               $('#date_end').val(moment(info.date).format('YYYY-MM-DD'));
@@ -128,7 +133,10 @@
               // console.log(moment(info.event.start).format('YYYY-MM-DD'));//ME FORMATEA LA FECHA DEL EVENTO A YYYY-M-D
               // console.log(moment(info.event.start).format('hh:mm:ss'));//ME FORMATEA LA FECHA DEL EVENTO A hh:mm:ss pero las 20 son las 08
               // console.log(moment(info.event.start).format('H:mm:ss'));//ME FORMATEA LA FECHA DEL EVENTO A H:mm:ss y las 20 son las 20
+              // console.log(info);
+              // console.log(info.event);
               $("#title").val(info.event.title);
+              $("#owner").val(info.event.extendedProps.owner);
               $("#date_start").val(moment(info.event.start).format('YYYY-MM-DD'));
               $("#hour_start").val(moment(info.event.start).format('H:mm:ss'));
               $("#date_end").val(moment(info.event.end).format('YYYY-MM-DD'));
@@ -138,6 +146,7 @@
               $("#editEv").show();
               $("#delEv").show();
               // console.log(info.event.id);
+              // console.log("Owner:"+info.event.extendedProps.owner);
               $('#id').val(info.event.id);//Le damos al campo id de tipo hidden de la ventana modal la id del último seleccionado. Para si pulsamos eliminar, que se elimine 
               // console.log(info.event.title);
             },
@@ -183,11 +192,12 @@
           var hour_end = $('#hour_end').val();
           var start = date_start + " " + hour_start;
           var end = date_end + " " + hour_end;
+          var owner = "<?php echo $_SESSION['user_id']?>";
           // console.log (id + " - " + title + " - " + start + " - " + end + " - ");//Lo muestro por consola para comprobaciones y debugs
           $('#modal_evento').modal("hide");
           //Los enviamos a axis.db como parámetros con la ?instrucción=insertar_evento ==> axis.db?instruccion=insertar_evento&id=$id&title=$title...etc
           //mediante un ajax... supongo
-          var url="axis.php?instruccion=insertar_evento&title="+title+"&start="+start+"&end="+end;
+          var url="axis.php?instruccion=insertar_evento&title="+title+"&start="+start+"&end="+end+"&owner="+owner;
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
@@ -205,6 +215,7 @@
         function editarEvento(){
           //recuperamos los valores de los campos del formulario modal de nuevo evento
           var id = $('#id').val();
+          var owner = $('#owner').val();
           var title = $('#title').val();
           var date_start = $('#date_start').val();
           var hour_start = $('#hour_start').val();
@@ -212,6 +223,7 @@
           var hour_end = $('#hour_end').val();
           var start = date_start + " " + hour_start;
           var end = date_end + " " + hour_end;
+          console.log("El owner es: "+owner);
           // console.log (id + " - " + title + " - " + start + " - " + end + " - ");//Lo muestro por consola para comprobaciones y debugs
           $('#modal_evento').modal("hide");
           //Los enviamos a axis.db como parámetros con la ?instrucción=insertar_evento ==> axis.db?instruccion=insertar_evento&id=$id&title=$title...etc
