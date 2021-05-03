@@ -93,7 +93,8 @@
               hour12: false
             },
             selectable: true,
-            height: 650,
+            editable: true,
+            height: 750,
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -110,7 +111,6 @@
               $('#hour_start').val('10:00:00');
               $('#date_end').val(moment(info.date).format('YYYY-MM-DD'));
               $('#hour_end').val('21:00:00');
-              console.log(info.date);
               $("#modal_evento").modal("show");//jquery: buscamos el elemento con id modal_evento y lo ejecutamos. Es la ventana modal de cuando pinchas en el calendario
               $("#addEv").show();
               $("#editEv").hide();
@@ -140,6 +140,25 @@
               // console.log(info.event.id);
               $('#id').val(info.event.id);//Le damos al campo id de tipo hidden de la ventana modal la id del último seleccionado. Para si pulsamos eliminar, que se elimine 
               // console.log(info.event.title);
+            },
+            eventDrop: function(info) {
+              //recuperamos el ID del evento y todos sus campos
+              // console.log(info);
+              // console.log(info.event);
+              // console.log(info.event.title);
+              // console.log(info.event.start);
+              // console.log(info.event.end);
+              actualizar_elemento_dropeado(info);
+
+              //Cambiamos la fecha original por la extraída de info.event.start
+              //Contactamos con bbdd para actualizar
+
+
+              // alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+
+              // if (!confirm("Are you sure about this change?")) {
+              //   info.revert();
+              // }
             },
 
             events:'axis.php?instruccion=listar_eventos'
@@ -211,6 +230,34 @@
           //Los enviamos a axis.db como parámetros con la ?instrucción=eliminar_evento
           //mediante un ajax... supongo
           var url="axis.php?instruccion=eliminar_evento&id="+id;
+          const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
+                  xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
+                      //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
+                      if(this.readyState == 4 && this.status ==200){ //Si la conexión ha sido un éxito...
+                          // calendar.render();
+                          calendar.refetchEvents();
+                      }else{//Si hemos fallado en la conexión y recuperación de esa información
+                          //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
+                      }
+                  };
+                  xhttp.open("GET", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.send(null);
+          //fin del ajax
+        }
+        function actualizar_elemento_dropeado(info){
+          //recuperamos los valores de los campos del formulario modal de nuevo evento
+          var id = info.event.id;
+          var title = info.event.title;
+          var start = moment(info.event.start).format('YYYY-MM-DD H:mm:ss');
+          var end = moment(info.event.end).format('YYYY-MM-DD H:mm:ss');
+          console.log(id);
+          console.log(title);
+          console.log(start);
+          console.log(end);
+          
+          //Los enviamos a axis.db como parámetros con la ?instrucción=editar_evento
+          //mediante un ajax... supongo
+          var url="axis.php?instruccion=editar_evento&id="+id+"&title="+title+"&start="+start+"&end="+end;
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
