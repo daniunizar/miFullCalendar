@@ -71,7 +71,85 @@ class db{
         return $result;
     }
 
+/**
+     * INSERT
+     * Esta función inserta un nuevo registro en users.
+     * Extrae la información de los campos del 'formulario' HTML correspondiente al SignUp
+     */
+    public function insertarUsuario(){
+        //Abrimos la conexión
+        $this->conectar();
+        $username = filter_input(INPUT_POST, "username")?filter_input(INPUT_POST, "username"):"generico";
+        $pass= filter_input(INPUT_POST, "pass")?filter_input(INPUT_POST, "pass"):"generico";
+        $encripted_pass = password_hash($pass, PASSWORD_BCRYPT);
+        echo("recibido: $username- $pass.");
+        //Preparamos la consulta
+        $query = "INSERT INTO users VALUES (null, '$username', '$encripted_pass')";
+        // $query = "INSERT INTO users VALUES (null, '$username', '$pass')";
+        
+        //Dos formas de ejecutar la consulta, comentamos una de ellas:
+        $result = mysqli_query($this->conexion, $query); //Con mysqli_query pasándole 2 parámetros: conexión y consulta
+        //$result = self::$con -> query($query); //Se coge la conexión y se llama al método query pasándole por parámetro la consulta
+        
+        //No vamos a devolver nada, pero si quisiéramos debuguear podemos habilitar las líneas de abajo para mostrar las filas afectadas
+        if($result){
+            $mensaje = true;
+            // echo "Se han INSERTADO $con->affected_rows"."<br/>";
+            // echo "El id ha sido: ".$con->insert_id . "<br/>";
+        }else{
+            $mensaje = false;
+            // echo "No se pudo";
+        }
+        return $mensaje;
+    }
 
+    /**
+     *  SELECT
+     *  Esta función recupera los registros de la tabla users.
+     */
+    public function login(){
+        //Abrimos la conexión
+        $this->conectar();
+        //Preparamos la consulta
+        $username = $_POST['username'];
+        $pass = $_POST['pass'];
+        $encripted_pass = password_hash($pass, PASSWORD_BCRYPT);
+        $query = "SELECT * FROM users WHERE name = '$username'";
+        //Ejecutamos la consulta y guardamos el conjunto de registros que devuelve en $result (sólo debería ser 1 registro)
+        $result = mysqli_query($this->conexion, $query);
+        //Recuperamos el resultado y mediante el while extraemos su contenido, la password es la posición 2
+        $recovered_password="";
+        $is_logged=false;
+        $user_id = "";
+        while($registro = mysqli_fetch_row($result)){
+            $user_id = $registro[0];
+            $recovered_password = $registro[2];
+        }
+        if(password_verify($pass, $recovered_password)){
+            $_SESSION['user_id']=$user_id;
+            $is_logged=true;
+        }
+        return $is_logged;
+    }
+
+    /**
+     *  SELECT
+     *  Esta función recupera toda la información del usuario loggeado de su tabla ususarios.
+     */
+    public function get_user_info(){
+        //Abrimos la conexión
+        $this->conectar();
+        //Preparamos la consulta
+        $user_id=$_SESSION['user_id'];
+        $query = "SELECT * FROM users WHERE ID = '$user_id'";
+        //Ejecutamos la consulta y guardamos el conjunto de registros que devuelve en $result (sólo debería ser 1 registro)
+        $result = mysqli_query($this->conexion, $query);
+        //Recuperamos el resultado y mediante el while extraemos su contenido
+        while($registro = mysqli_fetch_row($result)){
+            $username = $registro[1];
+            $_SESSION['username']=$username; //Asignamos a las variables de sesión la info del usuario
+        }        
+    }
 
     
 }
