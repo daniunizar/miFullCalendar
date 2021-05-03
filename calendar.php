@@ -50,6 +50,10 @@
               <label for="exampleInputPassword1">Propietario</label>
               <input type="text" class="form-control" id="owner" disabled>
             </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Propietario</label>
+              <input type="text" class="form-control" id="owner_name" disabled>
+            </div>
             
             <!-- <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -112,6 +116,7 @@
               limpiarFormulario_modal_evento();
               $('#title').val('Nuevo Evento');
               $('#owner').val('');
+              $('#owner_name').val('');
               $('#date_start').val(moment(info.date).format('YYYY-MM-DD'));
               $('#hour_start').val('10:00:00');
               $('#date_end').val(moment(info.date).format('YYYY-MM-DD'));
@@ -137,6 +142,7 @@
               // console.log(info.event);
               $("#title").val(info.event.title);
               $("#owner").val(info.event.extendedProps.owner);
+              $("#owner_name").val(info.event.extendedProps.owner_name);
               $("#date_start").val(moment(info.event.start).format('YYYY-MM-DD'));
               $("#hour_start").val(moment(info.event.start).format('H:mm:ss'));
               $("#date_end").val(moment(info.event.end).format('YYYY-MM-DD'));

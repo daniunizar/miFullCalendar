@@ -32,7 +32,9 @@ class db{
             $array_auxiliar['title']=$fila['title'];
             $array_auxiliar['start']=$fila['start'];
             $array_auxiliar['end']=$fila['end'];
-            $array_auxiliar['owner']=$fila['owner'];
+            $array_auxiliar['owner']=$fila['owner'];//Muestra el id del propietario
+            $owner_name = $this->get_owner_info($fila['owner']);//Consulta el nombre del propietario a partir de su id, y muestra el nombre
+            $array_auxiliar['owner_name']=$owner_name;
             array_push($array_registros_recuperados, $array_auxiliar);
             //echo "el valor del campo es: $fila[1] . <br/>"; //Obtenemos el valor del campo que pongamos entre corchetes del registro actual en cada vuelta del while
         }
@@ -160,15 +162,16 @@ class db{
         //Abrimos la conexión
         $this->conectar();
         //Preparamos la consulta
-        $query = "SELECT name FROM users WHERE id = '$owner_id'";
+        $query = "SELECT name FROM users WHERE ID = '$owner_id'";
         //Ejecutamos la consulta y guardamos el conjunto de registros que devuelve en $result (sólo debería ser 1 registro)
         $result = mysqli_query($this->conexion, $query);
         //Recuperamos el resultado y mediante el while extraemos su contenido
         // var_dump($result);
+        $owner_name="generico";
         while($registro = mysqli_fetch_row($result)){
-            $owner_name = $registro[1];
-            return $owner_name;
-        }        
+            $owner_name = $registro[0];
+        }     
+        return $owner_name;   
     }
 
 
