@@ -160,6 +160,14 @@
               //   info.revert();
               // }
             },
+            eventResize: function(info) {
+              actualizar_elemento_dropeado(info);
+              // alert(info.event.title + " end is now " + info.event.end.toISOString());
+
+              // if (!confirm("is this okay?")) {
+              //   info.revert();
+              // }
+            },
 
             events:'axis.php?instruccion=listar_eventos'
         });
