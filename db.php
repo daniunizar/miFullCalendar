@@ -35,6 +35,7 @@ class db{
             $array_auxiliar['owner']=$fila['owner'];//Muestra el id del propietario
             $owner_name = $this->get_owner_info($fila['owner']);//Consulta el nombre del propietario a partir de su id, y muestra el nombre
             $array_auxiliar['owner_name']=$owner_name;
+            $array_auxiliar['array_usuarios']=$this->listar_usuarios();
             array_push($array_registros_recuperados, $array_auxiliar);
             //echo "el valor del campo es: $fila[1] . <br/>"; //Obtenemos el valor del campo que pongamos entre corchetes del registro actual en cada vuelta del while
         }
@@ -173,6 +174,44 @@ class db{
         }     
         return $owner_name;   
     }
+
+    /**SELECT
+     * Recuperamos de la tabla users la id y nombre de los usuarios
+     * Objetivo: devolver array de usuarios
+     */
+    public function listar_usuarios(){
+        $this->conectar();
+        $query = "SELECT ID, NAME FROM USERS";
+        $result = mysqli_query($this->conexion, $query);//$result es un objeto mysqli_result que contiene el campo actual, el número de filas, el número de columnas y el tipo.
+        $array_registros_recuperados = array();
+        while($fila = $result->fetch_array()){//Fila vale a cada vuelta el siguiente valor de resultado, hasta que en el último vale null.
+            $array_auxiliar['id']=$fila['ID'];
+            $array_auxiliar['name']=$fila['NAME'];
+            array_push($array_registros_recuperados, $array_auxiliar);
+        }
+        //var_dump($array_registros_recuperados);//Comprobamos que obtenemos lo deseado
+        return $array_registros_recuperados;
+    }
+    /**SELECT
+     * Recuperamos de la tabla events_users si un usuario, a partir de su id, participa en un evento
+     * Recibimos como parámetros la id del evento y la id del usuario
+     * Devolvemos true si participa, false si no
+     */
+    public function is_joined($event_id, $user_id){
+        $this->conectar();
+        $query = "SELECT * FROM events_users WHERE event_id = '$event_id' AND user_id='$user_id'";
+        $result = mysqli_query($this->conexion, $query);//$result es un objeto mysqli_result que contiene el campo actual, el número de filas, el número de columnas y el tipo.
+        $numFilas = $result->num_rows;
+        $is_logged=false;
+        if($numFilas>0){
+            $is_logged=true;
+        }else{
+            $is_logged=false;
+        }
+        return $is_logged;
+    }
+
+
 
 
 

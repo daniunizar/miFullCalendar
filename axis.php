@@ -34,6 +34,22 @@ require 'db.php';
                 $id=$_GET['id'];
                 $result = $db_item->eliminar_evento($id);
             break;
+            case 'listar_usuarios':
+                $resultado = $db_item->listar_usuarios();//La función listar_usuarios() devuelve con su return una array con los usuarios recuperados de la bbdd.
+                $json = json_encode($resultado);
+                echo $json;
+            break;
+            case 'consultar_asistencia':
+                $event_id=$_GET['event_id'];
+                $user_id=$_GET['user_id'];;
+                $resultado = $db_item->is_joined($event_id, $user_id);//La función listar_usuarios() devuelve con su return una array con los usuarios recuperados de la bbdd.
+                if ($resultado){//Devuelve true o false
+                    echo "checked";
+                }else{
+                    echo "";
+                }
+
+            break;
         }
     }
     

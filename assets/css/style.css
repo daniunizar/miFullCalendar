@@ -4,3 +4,16 @@
 formulario_login input{
     height: 100px;
 }
+
+#tabla_asistentes{
+    border: 3px solid violet;
+    background-color: thistle;
+    border-collapse: collapse;
+    width: 100%;
+}
+#tabla_asistentes th, #tabla_asistentes td{
+    text-align: center;
+    border: 1px solid violet;
+    background-color: thistle;
+    border-collapse: collapse;
+}

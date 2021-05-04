@@ -61,7 +61,11 @@
             </div> -->
             <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
           </form>
-
+          <div class="modal-body">
+            <table id="tabla_asistentes">
+              <tr><th colspan="2">Asistentes</th></tr>
+            </table>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -139,7 +143,7 @@
               // console.log(moment(info.event.start).format('hh:mm:ss'));//ME FORMATEA LA FECHA DEL EVENTO A hh:mm:ss pero las 20 son las 08
               // console.log(moment(info.event.start).format('H:mm:ss'));//ME FORMATEA LA FECHA DEL EVENTO A H:mm:ss y las 20 son las 20
               // console.log(info);
-              // console.log(info.event);
+              console.log(info.event);
               $("#title").val(info.event.title);
               $("#owner").val(info.event.extendedProps.owner);
               $("#owner_name").val(info.event.extendedProps.owner_name);
@@ -147,6 +151,40 @@
               $("#hour_start").val(moment(info.event.start).format('H:mm:ss'));
               $("#date_end").val(moment(info.event.end).format('YYYY-MM-DD'));
               $("#hour_end").val(moment(info.event.end).format('H:mm:ss'));
+              var listado_usuarios = info.event.extendedProps.array_usuarios;
+              console.log("Tamaño: "+listado_usuarios.length);
+              $("#tabla_asistentes").empty();//Reseteamos la tabla de asistentes
+              //Y la rellenamos de los asistentes
+              var event_id = info.event.id;
+              for (var i=0; i<listado_usuarios.length; i++){
+                var user_id = listado_usuarios[i]['id'];
+                console.log("listo: "+listado_usuarios[i]['id']);
+                console.log("listo: "+listado_usuarios[i]['name']);
+                var url="axis.php?instruccion=consultar_asistencia&event_id="+event_id+"&user_id="+user_id;
+                const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
+                      xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
+                          //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
+                          if(this.readyState == 4 && this.status == 200){ //Si la conexión ha sido un éxito...
+                              // calendar.render();
+                              // calendar.refetchEvents();
+                              console.log("Está marcado: "+this.responseText);
+                              is_checked=this.responseText;
+                              if(is_checked=="checked"){
+                                $("#tabla_asistentes").append("<tr><td>"+listado_usuarios[i]['id']+"</td><td><input type='checkbox' checked>"+listado_usuarios[i]['name']+"</td></tr>");
+                              }else{
+                                $("#tabla_asistentes").append("<tr><td>"+listado_usuarios[i]['id']+"</td><td><input type='checkbox'>"+listado_usuarios[i]['name']+"</td></tr>");
+
+                              }
+                          }else{//Si hemos fallado en la conexión y recuperación de esa información
+                              //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
+                          }
+                      };
+                  xhttp.open("GET", url, false); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.send(null);
+          //fin del ajax
+
+              }
+              
               $("#modal_evento").modal("show");
               $("#addEv").hide();
               $("#editEv").show();
