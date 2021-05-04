@@ -1,6 +1,6 @@
 <?php
-$a = new db();
-$a->leer_eventos();
+// $a = new db();
+// $a->leer_eventos();
 class db{
     private $host ="localhost";
     private $user ="root";
@@ -58,10 +58,14 @@ class db{
      * Esta función edita un evento en la tabla events de la bbdd.
      * Recibe los parámetros de la función que la llama, y esta los recibe de la ventana modal en que rellenamos el nuevo evento.
      */
-    public function editar_evento($id, $title, $start, $end){
+    public function editar_evento($id, $title, $start, $end, $array_asistentes){
         $this->conectar();
         $query = "UPDATE EVENTS SET title='$title', start='$start', end='$end' WHERE id = $id";
         $result = mysqli_query($this->conexion, $query);
+        //llamada a eliminar el evento de events_users
+        $this->eliminar_registro_events_users($id);
+        //llamada a crearlo de nuevo con los que tengan check activado
+        $this->insertar_registro_events_users($id, $array_asistentes);
         return $result;
     }
     /**
@@ -69,6 +73,9 @@ class db{
      * Recibe el parámetro de la función que la llama, y esta los recibe del evento del calendario cuando es seleccionado.
      */
     public function eliminar_evento($id){
+        //Primero eliminamos todas las asistencias al evento
+        $this->eliminar_registro_events_users($id);
+        //Y luego eliminamos el evento
         $this->conectar();
         $query = "DELETE FROM EVENTS WHERE id = $id";
         $result = mysqli_query($this->conexion, $query);
@@ -211,6 +218,41 @@ class db{
         return $is_logged;
     }
 
+    public function actualizar_events_users($array_user_bool){
+        foreach (array_user_bool as $clave => $valor){
+            $this->conectar();
+            $query = "UPDATE events_users SET title='$title', start='$start', end='$end' WHERE id = $id";
+            $result = mysqli_query($this->conexion, $query);
+            return $result;
+        }
+    }
+
+    /**
+     * Elimina un registro de events_users a partir de la id del evento
+     */
+    public function eliminar_registro_events_users($event_id){
+        $this->conectar();
+        $query = "DELETE FROM events_users WHERE event_id = $event_id";
+        $result = mysqli_query($this->conexion, $query);
+        return $result;
+    }
+
+    /**
+     * Crea un nuevo registro en events_users a partir de la id de evento y de usuario
+     */
+    public function insertar_registro_events_users($event_id, $string_asistentes){
+        var_dump($string_asistentes);
+        $delimitador=",";
+        $array_explotada = explode ( $delimitador , $string_asistentes);
+        foreach ($array_explotada as $valor){
+            $this->conectar();
+            $id = null; //Al insertar di es null porque es numérico autoincremental
+            $user_id = $valor;
+            $query = "INSERT INTO events_users (id, event_id, user_id)" . "VALUES('$id','$event_id', '$user_id')";
+            $result = mysqli_query($this->conexion, $query);
+            // return $result;
+        }
+    }
 
 
 

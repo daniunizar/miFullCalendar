@@ -158,8 +158,9 @@
               var event_id = info.event.id;
               for (var i=0; i<listado_usuarios.length; i++){
                 var user_id = listado_usuarios[i]['id'];
-                console.log("listo: "+listado_usuarios[i]['id']);
-                console.log("listo: "+listado_usuarios[i]['name']);
+                var user_name = listado_usuarios[i]['name'];
+                // console.log("listado id: "+listado_usuarios[i]['id']);
+                // console.log("listado name: "+listado_usuarios[i]['name']);
                 var url="axis.php?instruccion=consultar_asistencia&event_id="+event_id+"&user_id="+user_id;
                 const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                       xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
@@ -167,13 +168,12 @@
                           if(this.readyState == 4 && this.status == 200){ //Si la conexión ha sido un éxito...
                               // calendar.render();
                               // calendar.refetchEvents();
-                              console.log("Está marcado: "+this.responseText);
+                              // console.log("El usuario con id "+user_id+"está marcado con (checked o blanco): "+this.responseText);
                               is_checked=this.responseText;
                               if(is_checked=="checked"){
-                                $("#tabla_asistentes").append("<tr><td>"+listado_usuarios[i]['id']+"</td><td><input type='checkbox' checked>"+listado_usuarios[i]['name']+"</td></tr>");
+                                $("#tabla_asistentes").append("<tr><td>"+user_id+"</td><td><input type='checkbox' id='"+user_id+"' checked>"+user_name+"</td></tr>");
                               }else{
-                                $("#tabla_asistentes").append("<tr><td>"+listado_usuarios[i]['id']+"</td><td><input type='checkbox'>"+listado_usuarios[i]['name']+"</td></tr>");
-
+                                $("#tabla_asistentes").append("<tr><td>"+user_id+"</td><td><input type='checkbox' id='"+user_id+"'>"+user_name+"</td></tr>");
                               }
                           }else{//Si hemos fallado en la conexión y recuperación de esa información
                               //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
@@ -181,8 +181,7 @@
                       };
                   xhttp.open("GET", url, false); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
                   xhttp.send(null);
-          //fin del ajax
-
+              //fin del ajax
               }
               
               $("#modal_evento").modal("show");
@@ -267,12 +266,13 @@
           var hour_end = $('#hour_end').val();
           var start = date_start + " " + hour_start;
           var end = date_end + " " + hour_end;
-          console.log("El owner es: "+owner);
+          // console.log("El owner es: "+owner);
+          array_asistentes=actualizar_asistentes();
           // console.log (id + " - " + title + " - " + start + " - " + end + " - ");//Lo muestro por consola para comprobaciones y debugs
           $('#modal_evento').modal("hide");
           //Los enviamos a axis.db como parámetros con la ?instrucción=insertar_evento ==> axis.db?instruccion=insertar_evento&id=$id&title=$title...etc
           //mediante un ajax... supongo
-          var url="axis.php?instruccion=editar_evento&id="+id+"&title="+title+"&start="+start+"&end="+end;
+          var url="axisPOST.php";
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
@@ -283,9 +283,24 @@
                           //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
                       }
                   };
-                  xhttp.open("GET", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
-                  xhttp.send(null);
+                  xhttp.open("POST", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//CON POST SE PONE ESTE ENCABEZADO para que envíe los datos!!!. Sin él, aunque realiza la recepción, enviar no ha enviado nada. Con get no hace falta.
+                  xhttp.send("instruccion=editar_evento&id="+id+"&title="+title+"&start="+start+"&end="+end+"&array_asistentes="+array_asistentes);
           //fin del ajax
+        }
+        function actualizar_asistentes(){
+          // console.log("La id del evento es: "+event_id);
+          var array_asistentes = new Array();
+          $("input:checkbox:checked").each(   
+              function() {
+                  // console.log("El checkbox con valor " + $(this).attr('id') + " está seleccionado");
+                  var user_id = $(this).attr('id');
+                  //Hago una array con todos:
+                  array_asistentes.push(user_id); 
+              }
+          );
+          // console.log(array_asistentes);
+          return array_asistentes;
         }
         function eliminarEvento(){
           //recuperamos los valores de los campos del formulario modal de nuevo evento
@@ -314,10 +329,10 @@
           var title = info.event.title;
           var start = moment(info.event.start).format('YYYY-MM-DD H:mm:ss');
           var end = moment(info.event.end).format('YYYY-MM-DD H:mm:ss');
-          console.log(id);
-          console.log(title);
-          console.log(start);
-          console.log(end);
+          // console.log(id);
+          // console.log(title);
+          // console.log(start);
+          // console.log(end);
           
           //Los enviamos a axis.db como parámetros con la ?instrucción=editar_evento
           //mediante un ajax... supongo
@@ -342,6 +357,14 @@
           $('#hour_start').val("");
           $('#date_end').val("");
           $('#hour_end').val("");
+          //coger todos los checkbuttons seleccionados y deseleccionarlos
+          $("input:checkbox:checked").each(   
+              function() {
+                  $(this).prop( "checked", false );
+ 
+              }
+          );
+          //fin coger todos los checkbuttons seleccionados y deseleccionarlos
         }
         $('#addEv').on('click', anadirEvento); //al botón de la ventana modal que permite registrar nuevo evento cuando ya hemos rellenado los campos del formulariio, le metemos un listener evento de acción onclick ue lleva a anadir evento
         $('#delEv').on('click', eliminarEvento); //al botón de la ventana modal que permite eliminar un evento cuando lo hemos seleccionado le metemos un lístener que lleva a la función que gestiona su eliminado

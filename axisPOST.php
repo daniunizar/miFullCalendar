@@ -6,8 +6,8 @@
  * Estas operaciones, en principio, son las de leer, escribir, editar o borrar registros desde la base de datos.
  */
 require 'db.php';
-    if(filter_input(INPUT_GET, 'instruccion')!=null){
-        $instruccion = filter_input(INPUT_GET, 'instruccion');
+    if(filter_input(INPUT_POST, 'instruccion')!=null){
+        $instruccion = filter_input(INPUT_POST, 'instruccion');
         $db_item = new db();
         switch($instruccion){
             case 'listar_eventos':
@@ -24,11 +24,12 @@ require 'db.php';
                 $result = $db_item->insertar_evento(null, $title, $start, $end, $owner);//La función insertar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
             break;
             case 'editar_evento':
-                $id=$_GET['id'];
-                $title=$_GET['title'];
-                $start=$_GET['start'];
-                $end=$_GET['end'];
-                $array_asistentes=$_GET['array_asistentes'];
+                echo "HE RECIBIDO EL AJAX";
+                $id=$_POST['id'];
+                $title=$_POST['title'];
+                $start=$_POST['start'];
+                $end=$_POST['end'];
+                $array_asistentes=$_POST['array_asistentes'];
                 $result = $db_item->editar_evento($id, $title, $start, $end, $array_asistentes);//La función editar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
             break;
             case 'eliminar_evento':
