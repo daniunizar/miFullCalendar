@@ -149,7 +149,7 @@
               $("#tabla_asistentes").show();
               //Rellenamos la tabla con los usuarios existentes (dado que ninguno asiste porque el evento no ha sido creado aún)
  //mediante un ajax... supongo
-          var url="axisPOST.php";
+          var url="axis.php";
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
@@ -281,7 +281,7 @@
           $('#modal_evento').modal("hide");
           //Los enviamos a axis.db como parámetros con la ?instrucción=insertar_evento ==> axis.db?instruccion=insertar_evento&id=$id&title=$title...etc
           //mediante un ajax... supongo
-          var url="axisPOST.php";
+          var url="axis.php";
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
@@ -314,7 +314,7 @@
           $('#modal_evento').modal("hide");
           //Los enviamos a axis.db como parámetros con la ?instrucción=insertar_evento ==> axis.db?instruccion=insertar_evento&id=$id&title=$title...etc
           //mediante un ajax... supongo
-          var url="axisPOST.php";
+          var url="axis.php";
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
