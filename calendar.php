@@ -98,15 +98,18 @@
         var calendarEl = document.getElementById('calendar'); //declaración global
         var calendar = new FullCalendar.Calendar(calendarEl, { //conversión a fullcalendar
             initialView: 'dayGridMonth',
+            firstDay: 1,//Cambia el día en que empieza la semana al LUNES
+            nowIndicator: true,//En la vista semanal y diaria te indica el momento actual con una raya roja
+            locale: 'es', //Calendario es Español
             eventTimeFormat: { // like '14:30:00'
               hour: '2-digit',
               minute: '2-digit',
               // second: '2-digit',
               hour12: false
             },
-            selectable: true,
+            selectable: true,//Permite seleccionar los días del calendario
             editable: true,
-            height: 750,
+            height: 850,//Altura del calendario
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
