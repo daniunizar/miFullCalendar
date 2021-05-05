@@ -9,6 +9,9 @@
     <!--Links Bootstrap-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <!--Links Bootstrap-->
+    <!--Link fonts awesome-->
+    <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+    <!--Fin Link fonts awesome-->
   </head>
   <body>
     <div id='calendar'>
@@ -101,6 +104,13 @@
             firstDay: 1,//Cambia el día en que empieza la semana al LUNES
             nowIndicator: true,//En la vista semanal y diaria te indica el momento actual con una raya roja
             locale: 'es', //Calendario es Español
+            themeSystem: 'bootstrap',
+            dayMaxEventRows: true, // for all non-TimeGrid views
+              views: {
+                timeGrid: {
+                  dayMaxEventRows: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+                }
+              },
             eventTimeFormat: { // like '14:30:00'
               hour: '2-digit',
               minute: '2-digit',
@@ -208,7 +218,7 @@
                               //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
                           }
                       };
-                  xhttp.open("GET", url, false); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.open("GET", url, false); //FALSERecibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
                   xhttp.send(null);
               //fin del ajax
               }

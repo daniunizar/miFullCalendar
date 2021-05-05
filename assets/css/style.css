@@ -17,3 +17,7 @@ formulario_login input{
     background-color: thistle;
     border-collapse: collapse;
 }
+
+#calendar{
+    background-color: rgba(243, 245, 141, 0.15);
+}
