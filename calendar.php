@@ -137,7 +137,7 @@
               $('#date_start').val(moment(info.date).format('YYYY-MM-DD'));
               $('#hour_start').val('10:00:00');
               $('#date_end').val(moment(info.date).format('YYYY-MM-DD'));
-              $('#hour_end').val('21:00:00');
+              $('#hour_end').val('12:00:00');
               $("#modal_evento").modal("show");//jquery: buscamos el elemento con id modal_evento y lo ejecutamos. Es la ventana modal de cuando pinchas en el calendario
               $("#seccion_owner").hide();
               $('#seccion_owner_name').hide();
@@ -200,7 +200,7 @@
                 var user_name = listado_usuarios[i]['name'];
                 // console.log("listado id: "+listado_usuarios[i]['id']);
                 // console.log("listado name: "+listado_usuarios[i]['name']);
-                var url="axis.php?instruccion=consultar_asistencia&event_id="+event_id+"&user_id="+user_id;
+                var url="axis.php";
                 const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                       xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                           //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
@@ -218,8 +218,9 @@
                               //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
                           }
                       };
-                  xhttp.open("GET", url, false); //FALSERecibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
-                  xhttp.send(null);
+                  xhttp.open("POST", url, false); //FALSERecibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//CON POST SE PONE ESTE ENCABEZADO para que envíe los datos!!!. Sin él, aunque realiza la recepción, enviar no ha enviado nada. Con get no hace falta.
+                  xhttp.send("instruccion=consultar_asistencia&event_id="+event_id+"&user_id="+user_id);
               //fin del ajax
               }
               $("#modal_evento").modal("show");
@@ -350,7 +351,7 @@
           $('#modal_evento').modal("hide");
           //Los enviamos a axis.db como parámetros con la ?instrucción=eliminar_evento
           //mediante un ajax... supongo
-          var url="axis.php?instruccion=eliminar_evento&id="+id;
+          var url="axis.php";
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
@@ -361,8 +362,9 @@
                           //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
                       }
                   };
-                  xhttp.open("GET", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
-                  xhttp.send(null);
+                  xhttp.open("POST", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//CON POST SE PONE ESTE ENCABEZADO para que envíe los datos!!!. Sin él, aunque realiza la recepción, enviar no ha enviado nada. Con get no hace falta.
+                  xhttp.send("instruccion=eliminar_evento&id="+id);
           //fin del ajax
         }
         function actualizar_elemento_dropeado(info){
@@ -378,7 +380,7 @@
           
           //Los enviamos a axis.db como parámetros con la ?instrucción=editar_evento
           //mediante un ajax... supongo
-          var url="axis.php?instruccion=editar_evento&id="+id+"&title="+title+"&start="+start+"&end="+end;
+          var url="axis.php";
           const xhttp = new XMLHttpRequest(); //Creamos el objeto ajax
                   xhttp.onreadystatechange = function(){//Cuando ese objeto cambie de estado, haremos lo que introduzcamos en esta función anónima
                       //Como el cambio no tiene por qué ser a nuestro favor, debemos comprobar que recuperamos un 4 y un 200
@@ -389,8 +391,9 @@
                           //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
                       }
                   };
-                  xhttp.open("GET", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
-                  xhttp.send(null);
+                  xhttp.open("POST", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//CON POST SE PONE ESTE ENCABEZADO para que envíe los datos!!!. Sin él, aunque realiza la recepción, enviar no ha enviado nada. Con get no hace falta.
+                  xhttp.send("instruccion=editar_evento&id="+id+"&title="+title+"&start="+start+"&end="+end);
           //fin del ajax
         }
         function limpiarFormulario_modal_evento(){
