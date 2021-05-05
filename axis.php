@@ -25,13 +25,19 @@ require 'db.php';
                 $result = $db_item->insertar_evento(null, $title, $start, $end, $owner, $string_asistentes);//La función insertar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
             break;
             case 'editar_evento':
-                echo "HE RECIBIDO EL AJAX";
                 $id=$_POST['id'];
                 $title=$_POST['title'];
                 $start=$_POST['start'];
                 $end=$_POST['end'];
                 $array_asistentes=$_POST['array_asistentes'];
                 $result = $db_item->editar_evento($id, $title, $start, $end, $array_asistentes);//La función editar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
+            break;
+            case 'editar_evento_dropeado':
+                $id=$_POST['id'];
+                $title=$_POST['title'];
+                $start=$_POST['start'];
+                $end=$_POST['end'];
+                $result = $db_item->editar_evento_dropeado($id, $title, $start, $end);//La función editar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
             break;
             case 'eliminar_evento':
                 $id=$_POST['id'];

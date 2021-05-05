@@ -391,9 +391,9 @@
                           //document.getElementById("contenedor").innerHTML="<p>Ha habido un error, esperábamos respuesta 4-200 y hemos recibido "+this.readyState+" - "+this.status+"</p>";
                       }
                   };
-                  xhttp.open("POST", url, true); //Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
+                  xhttp.open("POST", url, true); // DEBE SER FALSE PARA FUNCIONAR. Sino se el resize y drop vuelven a su estado original. Recibe el método (post o get), la url del fichero a recuperar y true o false a la pregunta de si queremos que sea asínscrono. Si no es asíncrono no es AJAX
                   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//CON POST SE PONE ESTE ENCABEZADO para que envíe los datos!!!. Sin él, aunque realiza la recepción, enviar no ha enviado nada. Con get no hace falta.
-                  xhttp.send("instruccion=editar_evento&id="+id+"&title="+title+"&start="+start+"&end="+end);
+                  xhttp.send("instruccion=editar_evento_dropeado&id="+id+"&title="+title+"&start="+start+"&end="+end);
           //fin del ajax
         }
         function limpiarFormulario_modal_evento(){
