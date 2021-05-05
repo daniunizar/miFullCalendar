@@ -69,6 +69,9 @@ require 'db.php';
 
             break;
         }
+        /**Este else que recoge los métodos GET es prescindible, a excepción dej listar_eventos que lo llama sin ajax 
+         * la propiedad events:'axis.php?instruccion=listar_eventos' de full calendar.
+         */
     }else if(filter_input(INPUT_GET, 'instruccion')!=null){
         $instruccion = filter_input(INPUT_GET, 'instruccion');
         $db_item = new db();
