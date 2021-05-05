@@ -47,13 +47,29 @@ class db{
      * Esta función inserta un evento en la tabla events de la bbdd.
      * Recibe los parámetros de la función que la llama, y esta los recibe de la ventana modal en que rellenamos el nuevo evento.
      */
-    public function insertar_evento($id, $title, $start, $end, $owner){
+    public function insertar_evento($id, $title, $start, $end, $owner, $string_asistentes){
         $this->conectar();
         $id = null; //Al insertar di es null porque es numérico autoincremental
         $query = "INSERT INTO EVENTS (id, title, start, end, owner)". "VALUES('$id','$title', '$start', '$end', '$owner')";
         $result = mysqli_query($this->conexion, $query);
+        $event_id = $this->conexion->insert_id;
+        $this->insertar_registro_events_users($event_id, $string_asistentes);
         return $result;
     }
+    /**
+     * Esta función inserta un evento en la tabla events de la bbdd.
+     * Recibe los parámetros de la función que la llama, y esta los recibe de la ventana modal en que rellenamos el nuevo evento.
+     */
+    public function insertar_eventoPOST($id, $title, $start, $end, $owner, $string_asistentes){
+        $this->conectar();
+        $id = null; //Al insertar di es null porque es numérico autoincremental
+        $query = "INSERT INTO EVENTS (id, title, start, end, owner)". "VALUES('$id','$title', '$start', '$end', '$owner')";
+        $result = mysqli_query($this->conexion, $query);
+        $event_id = $this->conexion->insert_id;
+        $this->insertar_registro_events_users($event_id, $string_asistentes);
+        // return $result;
+    }
+
     /**
      * Esta función edita un evento en la tabla events de la bbdd.
      * Recibe los parámetros de la función que la llama, y esta los recibe de la ventana modal en que rellenamos el nuevo evento.

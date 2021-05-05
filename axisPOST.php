@@ -17,11 +17,12 @@ require 'db.php';
             break;
             case 'insertar_evento':
                 $id=null;
-                $title=$_GET['title'];
-                $start=$_GET['start'];
-                $end=$_GET['end'];
-                $owner=$_GET['owner'];
-                $result = $db_item->insertar_evento(null, $title, $start, $end, $owner);//La función insertar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
+                $title=$_POST['title'];
+                $start=$_POST['start'];
+                $end=$_POST['end'];
+                $owner=$_POST['owner'];
+                $string_asistentes=$_POST['string_asistentes'];
+                $result = $db_item->insertar_evento(null, $title, $start, $end, $owner, $string_asistentes);//La función insertar_evento() en principio no devuelve nada, pero igual debe devolver un refresh o algo
             break;
             case 'editar_evento':
                 echo "HE RECIBIDO EL AJAX";
@@ -40,6 +41,15 @@ require 'db.php';
                 $resultado = $db_item->listar_usuarios();//La función listar_usuarios() devuelve con su return una array con los usuarios recuperados de la bbdd.
                 $json = json_encode($resultado);
                 echo $json;
+            break;
+            case 'generar_tabla_users':
+                $resultado = $db_item->listar_usuarios();//La función listar_usuarios() devuelve con su return una array con los usuarios recuperados de la bbdd.
+                //para cada usuario creamos la tabla
+                $html_txt="";
+                foreach ($resultado as $valor){
+                    $html_txt.="<tr><td>".$valor['id']."</td><td>".$valor['name']."<input type='checkbox' id=".$valor['id']."></td></tr>";
+                }
+                echo $html_txt;
             break;
             case 'consultar_asistencia':
                 $event_id=$_GET['event_id'];
