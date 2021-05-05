@@ -27,31 +27,31 @@
           <form>
             <div class="form-group">
               <input type="hidden" id="id">
-              <label for="concepto_evento">Nombre del Evento</label>
+              <label for="title">Nombre del Evento</label>
               <input type="text" class="form-control" id="title">
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Fecha inicio</label>
+              <label for="date_start">Fecha inicio</label>
               <input type="date" class="form-control" id="date_start">
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Hora inicio</label>
+              <label for="hour_start">Hora inicio</label>
               <input type="time" class="form-control" id="hour_start">
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Fecha finalización</label>
+              <label for="date_end">Fecha finalización</label>
               <input type="date" class="form-control" id="date_end">
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Hora de finalización</label>
+              <label for="hour_end">Hora de finalización</label>
               <input type="time" class="form-control" id="hour_end">
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Propietario</label>
+            <div class="form-group" id="seccion_owner">
+              <label for="owner">ID Propietario</label>
               <input type="text" class="form-control" id="owner" disabled>
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Propietario</label>
+            <div class="form-group" id="seccion_owner_name">
+              <label for="owner_name">Propietario</label>
               <input type="text" class="form-control" id="owner_name" disabled>
             </div>
             
@@ -129,10 +129,13 @@
               $('#date_end').val(moment(info.date).format('YYYY-MM-DD'));
               $('#hour_end').val('21:00:00');
               $("#modal_evento").modal("show");//jquery: buscamos el elemento con id modal_evento y lo ejecutamos. Es la ventana modal de cuando pinchas en el calendario
+              $("#seccion_owner").hide();
+              $('#seccion_owner_name').hide();
               $("#addEv").show();
               $("#editEv").hide();
               $("#delEv").hide();
               $("#tabla_asistentes").empty();//Reseteamos la tabla de asistentes
+              $("#tabla_asistentes").append("<tr><th colspan='2'>ASISTENTES</th><tr>");
               $("#tabla_asistentes").show();
               //Rellenamos la tabla con los usuarios existentes (dado que ninguno asiste porque el evento no ha sido creado aún)
  //mediante un ajax... supongo
@@ -178,6 +181,7 @@
               var listado_usuarios = info.event.extendedProps.array_usuarios;
               console.log("Tamaño: "+listado_usuarios.length);
               $("#tabla_asistentes").empty();//Reseteamos la tabla de asistentes
+              $("#tabla_asistentes").append("<tr><th colspan='2'>ASISTENTES</th><tr>");
               $("#tabla_asistentes").show();
               //Y la rellenamos de los asistentes
               var event_id = info.event.id;
@@ -208,8 +212,9 @@
                   xhttp.send(null);
               //fin del ajax
               }
-              
               $("#modal_evento").modal("show");
+              $("#seccion_owner").hide();
+              $('#seccion_owner_name').show();
               $("#addEv").hide();
               $("#editEv").show();
               $("#delEv").show();
