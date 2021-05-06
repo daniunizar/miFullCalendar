@@ -21,3 +21,6 @@ formulario_login input{
 #calendar{
     background-color: rgba(243, 245, 141, 0.15);
 }
+.mensaje_alerta{
+    color: red;
+}
