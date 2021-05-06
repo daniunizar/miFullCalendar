@@ -9,13 +9,14 @@
     <!--Links Bootstrap-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <!--Links Bootstrap-->
-    <!--Link fonts awesome-->
+    <!--Link fonts awesome: Necesario para que el calendario cargue en las flechas de prev y ant el símbolo adecuado al importar el tema de bootstrap-->
     <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
     <!--Fin Link fonts awesome-->
   </head>
   <body>
-    <div id='calendar'>
-    </div>
+        <div id='calendar'>
+        </div>
+    
   <!--MODAL NUEVO EVENTO-->
   <div class="modal" tabindex="-1" id="modal_evento">
     <div class="modal-dialog">
@@ -31,23 +32,23 @@
             <div class="form-group">
               <input type="hidden" id="id">
               <label for="title">Nombre del Evento</label>
-              <input type="text" class="form-control" id="title">
+              <input type="text" class="form-control input_modal" id="title">
             </div>
             <div class="form-group">
               <label for="date_start">Fecha inicio</label>
-              <input type="date" class="form-control" id="date_start">
+              <input type="date" class="form-control input_modal" id="date_start">
             </div>
             <div class="form-group">
               <label for="hour_start">Hora inicio</label>
-              <input type="time" class="form-control" id="hour_start">
+              <input type="time" class="form-control input_modal" id="hour_start">
             </div>
             <div class="form-group">
               <label for="date_end">Fecha finalización</label>
-              <input type="date" class="form-control" id="date_end">
+              <input type="date" class="form-control input_modal" id="date_end">
             </div>
             <div class="form-group">
               <label for="hour_end">Hora de finalización</label>
-              <input type="time" class="form-control" id="hour_end">
+              <input type="time" class="form-control input_modal" id="hour_end">
             </div>
             <div class="custom-control custom-switch text-right">
               <input type="checkbox" class="custom-control-input" id="allday_event_switch">

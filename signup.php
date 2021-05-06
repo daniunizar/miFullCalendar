@@ -35,7 +35,7 @@
     <?php
         require 'partials/header.php';
     ?>
-    <div class="container">
+    <div class="container fondo_auxiliar_sobrepuesto" id="logo">
         <div class="row">
             <div class="col">
                 <h1 class="centrado">SignUp</h1>

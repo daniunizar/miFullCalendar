@@ -23,9 +23,9 @@
 </head>
 <body>
     <?php require 'partials/header.php';?>
-    <div class="container">
+    <div class="container fondo_auxiliar_sobrepuesto" id="logo">
         <div class="row">
-            <div class="col.12"><!--título-->
+            <div class="col-12"><!--título-->
                 <h1 class="centrado">Login</h1>
             </div>
         </div>
@@ -33,6 +33,10 @@
             <div class="col-12">
                 <p class="centrado">or <a href="signup.php" class="centrado">SignUp</a></p>
             </div>
+        </div>
+        <div class="row">
+            <!-- <div class="col" id="logo"><img src="assets/img/zodiac.png" alt="imagen"></div> -->
+            <!-- <div class="col" id="logo"></div> -->
         </div>
         <div class="row"><!--Formulario login-->
             <form action="" method="POST" class="formulario_login">

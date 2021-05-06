@@ -25,6 +25,12 @@ require 'db.php';
             </div>
         </div>
         <div class="row">
+            <div class="col-12 text-center">
+                <img src="assets/img/zodiac.png" alt="" width="500px">
+            </div>
+        </div>
+        
+        <div class="row">
             <div class="col">
                 <?php if(empty($_SESSION['user_id'])):?><!--Si iniciamos la página sin habernos logueado-->
                     <div class="col">
@@ -37,7 +43,7 @@ require 'db.php';
                     <div class="col-12">
                         <div class="row">
                             <div class="col">
-                                <h6 class="centrado">Bienvenido <?php echo $_SESSION['username']?></h6>
+                                <h6 class="centrado">Bienvenid@ <?php echo $_SESSION['username']?></h6>
                             </div>
                         </div>
                         <div class="row">

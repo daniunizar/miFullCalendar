@@ -6,21 +6,112 @@ formulario_login input{
 }
 
 #tabla_asistentes{
-    border: 3px solid violet;
-    background-color: thistle;
+    /* border: 3px solid violet;
+    background-color: thistle; */
+    /* border: 3px solid #DEE2E6;
+    background-color: #948E6D; */
     border-collapse: collapse;
     width: 100%;
 }
 #tabla_asistentes th, #tabla_asistentes td{
     text-align: center;
-    border: 1px solid violet;
-    background-color: thistle;
+    /* border: 1px solid violet;
+    background-color: thistle; */
+    /* border: 1px solid #DEE2E6;
+    background-color: #948E6D; */
+    border-bottom: 1px dotted #948E6D;
     border-collapse: collapse;
 }
 
 #calendar{
-    background-color: rgba(243, 245, 141, 0.15);
+    /* background-color: #BDA170; */
+    /* background-image: url("../img/paper.jpg"); */
+    /* background: linear-gradient(to bottom, #9E9576, white); */
+    background-color: rgba(255, 255, 255, 0.15);
+
 }
 .mensaje_alerta{
     color: red;
+}
+h1, h2, h6,  p{
+    font-family: 'Montserrat', sans-serif !important;
+    color: brown;
+}
+a{
+    color: brown;
+}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+body{
+    /* background-color: #FAECCA; */
+    background-image: url("../img/crumpled_paper.jpg");
+
+}
+.modal-content{
+    border-image: 15px solid linear-gradient(to bottom, #948E6D, #DEE2E6) !important;
+    /* border: 15px solid brown !important; */
+    border-radius: 40px 10px !important;
+}
+.modal-content {
+    background: linear-gradient(to bottom, #948E6D, #DEE2E6);
+    color: brown;
+}
+modal-content input{
+    color: brown;
+    background-color: burlywood !important;
+}
+.input_modal{
+    background-color: rgba(255, 255, 255, 0.0)!important;
+
+}
+
+/*ENLACES*/
+a {
+ color: brown;
+ text-decoration: none !important;
+}
+
+
+a:link {
+    text-decoration: underline !important;
+    color: brown;
+
+}
+
+a:visited {
+    text-decoration: none !important;
+    color: brown;
+
+}
+
+a:focus {
+    text-decoration: none !important;
+    color: brown;
+
+}
+
+a:hover {
+    text-decoration: none !important;
+    color: brown;
+    background: #948E6D;
+
+}
+
+a:active {
+    text-decoration: none !important;
+    color: brown;
+
+}
+
+#logo{
+    width: 100%;
+    height: 1280px;
+    background-image: url("../img/zodiac.png");
+    background-size: cover;
+}
+.fondo_auxiliar{
+    background-color:rgba(255, 255, 255, 0.15);
+}
+.fondo_auxiliar_sobrepuesto{
+    background-color:rgba(255, 255, 255, 0.5);
 }

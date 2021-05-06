@@ -50,10 +50,14 @@ require 'db.php';
             break;
             case 'generar_tabla_users':
                 $resultado = $db_item->listar_usuarios();//La función listar_usuarios() devuelve con su return una array con los usuarios recuperados de la bbdd.
-                //para cada usuario creamos la tabla
+                //para cada usuario creamos la tabla que incluye ID y Nombre con checkbox
                 $html_txt="";
+                // foreach ($resultado as $valor){
+                //     $html_txt.="<tr><td>".$valor['id']."</td><td>".$valor['name']."<input type='checkbox' id=".$valor['id']."></td></tr>";
+                // }
+                //Esta otra versión en cambio sólo incluye el nombre
                 foreach ($resultado as $valor){
-                    $html_txt.="<tr><td>".$valor['id']."</td><td>".$valor['name']."<input type='checkbox' id=".$valor['id']."></td></tr>";
+                    $html_txt.="<tr><td>".$valor['name']."<input type='checkbox' id=".$valor['id']."></td></tr>";
                 }
                 echo $html_txt;
             break;
