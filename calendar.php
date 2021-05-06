@@ -49,6 +49,10 @@
               <label for="hour_end">Hora de finalización</label>
               <input type="time" class="form-control" id="hour_end">
             </div>
+            <div class="custom-control custom-switch text-right">
+              <input type="checkbox" class="custom-control-input" id="allday_event_switch">
+              <label class="custom-control-label" for="allday_event_switch">Todo el día</label>
+            </div>
             <div class="form-group" id="seccion_owner">
               <label for="owner">ID Propietario</label>
               <input type="text" class="form-control" id="owner" disabled>
@@ -146,6 +150,8 @@
               $("#delEv").hide();
               $("#tabla_asistentes").empty();//Reseteamos la tabla de asistentes
               $("#tabla_asistentes").append("<tr><th colspan='2'>ASISTENTES</th><tr>");
+              $('#allday_event_switch').prop( "checked", false );
+              allday_toggle();
               $("#tabla_asistentes").show();
               //Rellenamos la tabla con los usuarios existentes (dado que ninguno asiste porque el evento no ha sido creado aún)
  //mediante un ajax... supongo
@@ -185,13 +191,15 @@
               $("#owner").val(info.event.extendedProps.owner);
               $("#owner_name").val(info.event.extendedProps.owner_name);
               $("#date_start").val(moment(info.event.start).format('YYYY-MM-DD'));
-              $("#hour_start").val(moment(info.event.start).format('H:mm:ss'));
+              $("#hour_start").val(moment(info.event.start).format('HH:mm:ss'));
               $("#date_end").val(moment(info.event.end).format('YYYY-MM-DD'));
-              $("#hour_end").val(moment(info.event.end).format('H:mm:ss'));
+              $("#hour_end").val(moment(info.event.end).format('HH:mm:ss'));
               var listado_usuarios = info.event.extendedProps.array_usuarios;
               console.log("Tamaño: "+listado_usuarios.length);
               $("#tabla_asistentes").empty();//Reseteamos la tabla de asistentes
               $("#tabla_asistentes").append("<tr><th colspan='2'>ASISTENTES</th><tr>");
+              config_allday_toggle();
+              allday_toggle();
               $("#tabla_asistentes").show();
               //Y la rellenamos de los asistentes
               var event_id = info.event.id;
@@ -396,6 +404,39 @@
                   xhttp.send("instruccion=editar_evento_dropeado&id="+id+"&title="+title+"&start="+start+"&end="+end);
           //fin del ajax
         }
+        function allday_toggle(){
+          if ($('#allday_event_switch').is(':checked')){
+            console.log("CheckButton all_day marcado");
+            $('#date_start').prop( "disabled", true);
+            $("#date_end").val($('#date_start').val());            
+            $('#date_end').prop( "disabled", true );
+            $("#hour_start").val("00:00");
+            $("#hour_end").val("23:59"); 
+            $("#hour_start").prop( "disabled", true);
+            $("#hour_end").prop( "disabled", true);
+          }else{
+            console.log("CheckButton all_day desmarcado");
+            $('#date_start').prop( "disabled", false);
+            $('#date_end').prop( "disabled", false);
+            $("#hour_start").prop( "disabled", false);
+            $("#hour_end").prop( "disabled", false);
+          }
+        }
+        function config_allday_toggle(){        
+          var date_start = $('#date_start').val();
+          var hour_start = $('#hour_start').val();
+          var date_end = $('#date_end').val();
+          var hour_end = $('#hour_end').val();
+          console.log("fecha inicio: "+date_start);
+          console.log("fecha fin: "+date_end);
+          console.log("hora inicio: "+hour_start);
+          console.log("hora fin: "+hour_end);
+          if((date_start == date_end)&&(hour_start=="00:00:00")&&(hour_end=="23:59:00")){
+            $('#allday_event_switch').prop( "checked", true );
+          }else{
+            $('#allday_event_switch').prop( "checked", false );
+          }
+        }
         function limpiarFormulario_modal_evento(){
           $('#title').val("");
           $('#date_start').val("");
@@ -414,7 +455,8 @@
         $('#addEv').on('click', anadirEvento); //al botón de la ventana modal que permite registrar nuevo evento cuando ya hemos rellenado los campos del formulariio, le metemos un listener evento de acción onclick ue lleva a anadir evento
         $('#delEv').on('click', eliminarEvento); //al botón de la ventana modal que permite eliminar un evento cuando lo hemos seleccionado le metemos un lístener que lleva a la función que gestiona su eliminado
         $('#editEv').on('click', editarEvento); //al botón de la ventana modal que permite eliminar un evento cuando lo hemos seleccionado le metemos un lístener que lleva a la función que gestiona su eliminado
-    });
+        $('#allday_event_switch').on('click', allday_toggle);//Al checkbox de la ventana modar de evento de todo el día le metemos una función al clicarlo que compruebe su estado y en consecuencia modifique horas y oculte campos
+      });
 
   </script>
   </body>
