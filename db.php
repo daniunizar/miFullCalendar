@@ -5,7 +5,8 @@ class db{
     private $host ="localhost";
     private $user ="root";
     private $pass ="";
-    private $bbdd ="fullcalendardb";
+    // private $bbdd ="fullcalendardb";
+    private $bbdd ="calendapp";
 
     private $conexion;
 
@@ -24,7 +25,7 @@ class db{
      */
     public function leer_eventos(){
         $this->conectar();
-        $query = "SELECT * FROM EVENTS";
+        $query = "SELECT * FROM events";
         $result = mysqli_query($this->conexion, $query);//$result es un objeto mysqli_result que contiene el campo actual, el número de filas, el número de columnas y el tipo.
         $array_registros_recuperados = array();
         while($fila = $result->fetch_array()){//Fila vale a cada vuelta el siguiente valor de resultado, hasta que en el último vale null.
@@ -50,7 +51,7 @@ class db{
     public function insertar_evento($id, $title, $start, $end, $owner, $string_asistentes){
         $this->conectar();
         $id = null; //Al insertar di es null porque es numérico autoincremental
-        $query = "INSERT INTO EVENTS (id, title, start, end, owner)". "VALUES('$id','$title', '$start', '$end', '$owner')";
+        $query = "INSERT INTO events (id, title, start, end, owner)". "VALUES('$id','$title', '$start', '$end', '$owner')";
         $result = mysqli_query($this->conexion, $query);
         $event_id = $this->conexion->insert_id;
         $this->insertar_registro_events_users($event_id, $string_asistentes);
@@ -63,7 +64,7 @@ class db{
     public function insertar_eventoPOST($id, $title, $start, $end, $owner, $string_asistentes){
         $this->conectar();
         $id = null; //Al insertar di es null porque es numérico autoincremental
-        $query = "INSERT INTO EVENTS (id, title, start, end, owner)". "VALUES('$id','$title', '$start', '$end', '$owner')";
+        $query = "INSERT INTO events (id, title, start, end, owner)". "VALUES('$id','$title', '$start', '$end', '$owner')";
         $result = mysqli_query($this->conexion, $query);
         $event_id = $this->conexion->insert_id;
         $this->insertar_registro_events_users($event_id, $string_asistentes);
@@ -76,7 +77,7 @@ class db{
      */
     public function editar_evento($id, $title, $start, $end, $array_asistentes){
         $this->conectar();
-        $query = "UPDATE EVENTS SET title='$title', start='$start', end='$end' WHERE id = $id";
+        $query = "UPDATE events SET title='$title', start='$start', end='$end' WHERE id = $id";
         $result = mysqli_query($this->conexion, $query);
         //llamada a eliminar el evento de events_users
         $this->eliminar_registro_events_users($id);
@@ -91,7 +92,7 @@ class db{
      */
     public function editar_evento_dropeado($id, $title, $start, $end){
         $this->conectar();
-        $query = "UPDATE EVENTS SET title='$title', start='$start', end='$end' WHERE id = $id";
+        $query = "UPDATE events SET title='$title', start='$start', end='$end' WHERE id = $id";
         $result = mysqli_query($this->conexion, $query);
         return $result;
     }
@@ -104,7 +105,7 @@ class db{
         $this->eliminar_registro_events_users($id);
         //Y luego eliminamos el evento
         $this->conectar();
-        $query = "DELETE FROM EVENTS WHERE id = $id";
+        $query = "DELETE FROM events WHERE id = $id";
         $result = mysqli_query($this->conexion, $query);
         return $result;
     }
@@ -179,7 +180,7 @@ class db{
         $this->conectar();
         //Preparamos la consulta
         $user_id=$_SESSION['user_id'];
-        $query = "SELECT * FROM users WHERE ID = '$user_id'";
+        $query = "SELECT * FROM users WHERE id = '$user_id'";
         //Ejecutamos la consulta y guardamos el conjunto de registros que devuelve en $result (sólo debería ser 1 registro)
         $result = mysqli_query($this->conexion, $query);
         //Recuperamos el resultado y mediante el while extraemos su contenido
@@ -197,7 +198,7 @@ class db{
         //Abrimos la conexión
         $this->conectar();
         //Preparamos la consulta
-        $query = "SELECT name FROM users WHERE ID = '$owner_id'";
+        $query = "SELECT name FROM users WHERE id = '$owner_id'";
         //Ejecutamos la consulta y guardamos el conjunto de registros que devuelve en $result (sólo debería ser 1 registro)
         $result = mysqli_query($this->conexion, $query);
         //Recuperamos el resultado y mediante el while extraemos su contenido
@@ -215,12 +216,12 @@ class db{
      */
     public function listar_usuarios(){
         $this->conectar();
-        $query = "SELECT ID, NAME FROM USERS";
+        $query = "SELECT id, name FROM users";
         $result = mysqli_query($this->conexion, $query);//$result es un objeto mysqli_result que contiene el campo actual, el número de filas, el número de columnas y el tipo.
         $array_registros_recuperados = array();
         while($fila = $result->fetch_array()){//Fila vale a cada vuelta el siguiente valor de resultado, hasta que en el último vale null.
-            $array_auxiliar['id']=$fila['ID'];
-            $array_auxiliar['name']=$fila['NAME'];
+            $array_auxiliar['id']=$fila['id'];
+            $array_auxiliar['name']=$fila['name'];
             array_push($array_registros_recuperados, $array_auxiliar);
         }
         //var_dump($array_registros_recuperados);//Comprobamos que obtenemos lo deseado
