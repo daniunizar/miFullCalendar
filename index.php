@@ -20,20 +20,21 @@ require 'db.php';
     ?>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-12">
                 <h1 class="centrado">Calendapp</h1>
             </div>
         </div>
-        <div class="row">
+        <?php if(empty($_SESSION['user_id'])):?><!--Si iniciamos la página sin habernos logueado mostramos el logo-->
+        <div class="row mb-2 logo_index">
             <div class="col-12 text-center">
                 <img src="assets/img/zodiac.png" alt="" width="500px">
             </div>
         </div>
-        
+        <?php endif;?><!--Fin de iniciar la página sin credenciales-->
         <div class="row">
-            <div class="col">
+            <div class="col-12">
                 <?php if(empty($_SESSION['user_id'])):?><!--Si iniciamos la página sin habernos logueado-->
-                    <div class="col">
+                    <div class="col-12">
                         <h2 class="centrado">Please, <a href="login.php">Login</a> or <a href="signup.php">SignUp</a></h2> 
                     </div>
                 <?php else:?><!--Si nos hemos logueado con éxito-->

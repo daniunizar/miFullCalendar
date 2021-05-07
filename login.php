@@ -1,11 +1,14 @@
 <?php
     session_start();
+    $mensaje_alerta = "";
     $is_logged=false;
         require 'db.php';
         if(!empty($_POST['username'])){
             if(!empty($_POST['pass'])){
                 $a=new db();
                 $is_logged=$a->login();
+            }else{
+                $mensaje_alerta = "El usuario no existe o ha introducido una contraseña no válida";//Pendiente de revisión, no operativo
             }
         }
 ?>
@@ -46,10 +49,18 @@
                 <div class="form-group centrado">
                     <input type="password" name="pass" placeholder="Enter your Password*" class="form-control">
                 </div>
+                <div id="alerta">
+                    <p id="mensaje_alerta" class="mensaje_alerta"><?php echo $mensaje_alerta?></p>
+                </div>
                 <div class="form-group centrado col-12">
                     <input type="submit" value="Send" class="btn btn-primary w-100">
                 </div>
             </form>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <img src="assets/img/zodiac.png" alt="" width="500px">
+            </div>
         </div>
     </div>
     <?php

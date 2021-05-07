@@ -65,6 +65,11 @@
                 </div>
             </form>
         </div>
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <img src="assets/img/zodiac.png" alt="" width="500px">
+            </div>
+        </div>
     </div>
     <?php
         if($insercion==true){
