@@ -12,6 +12,9 @@
     <!--Link fonts awesome: Necesario para que el calendario cargue en las flechas de prev y ant el símbolo adecuado al importar el tema de bootstrap-->
     <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
     <!--Fin Link fonts awesome-->
+    <!--Mi CSS para calendario-->
+    <link rel="stylesheet" href="assets/css/estiloCalendario.css">
+    <!--Fin Mi CSS para calendario-->
   </head>
   <body>
         <div id='calendar'>
@@ -109,7 +112,8 @@
             firstDay: 1,//Cambia el día en que empieza la semana al LUNES
             nowIndicator: true,//En la vista semanal y diaria te indica el momento actual con una raya roja
             locale: 'es', //Calendario es Español
-            themeSystem: 'bootstrap',
+            // themeSystem: 'bootstrap',
+            themeSystem: 'standard',
             dayMaxEventRows: true, // for all non-TimeGrid views
               views: {
                 timeGrid: {

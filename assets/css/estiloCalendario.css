@@ -1,0 +1,25 @@
+.fc-button{
+    background-color: #948E6D !important;
+    font-family: 'Montserrat', sans-serif !important;
+    color: brown !important;
+    font-weight: bold !important;
+}
+.fc{
+    color: black !important;
+}
+.fc-col-header-cell-cushion, .fc-daygrid-day-number, .fc-event-time, .fc-event-title {
+    color: black !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.fc-daygrid-event-dot{
+    color: brown !important;
+    border-color: brown !important;
+}
+.fc-toolbar-title{
+    font-family: 'Montserrat', sans-serif !important;
+    
+    color: brown !important;
+    font-weight: 800 !important;
+}
+
